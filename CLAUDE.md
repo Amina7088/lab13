@@ -9,14 +9,23 @@
 
 ## Project Structure
 partB/src/
+
 ├── main/java/com/library/
+
 │   ├── controller/   # REST endpoints only
+
 │   ├── service/      # All business logic
+
 │   ├── repository/   # JPA interfaces
+
 │   ├── entity/       # DB entities
+
 │   └── dto/          # Request/Response objects
+
 └── test/java/com/library/
+
 └── service/      # Unit tests (JUnit 5 + Mockito)
+
 
 ## Code Style & Conventions
 - Language: Java 17+
