@@ -1,7 +1,12 @@
-package main.java.com.library.service;
+package com.library.service;
+
+import com.library.dto.BookDTO;
+import com.library.entity.Book;
+import com.library.repository.BookRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
 
@@ -11,6 +16,10 @@ public class BookService {
         book.setAuthor(dto.getAuthor());
         book.setIsbn(dto.getIsbn());
         return bookRepository.save(book);
+    }
+
+        public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getAllBooks() {

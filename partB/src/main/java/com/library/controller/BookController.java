@@ -1,10 +1,21 @@
-package main.java.com.library.controller;
+package com.library.controller;
+
+import com.library.dto.BookDTO;
+import com.library.entity.Book;
+import com.library.service.BookService;
+import jakarta.validation.Valid;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-@RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
@@ -23,8 +34,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(
-            @PathVariable Long id,
+    public ResponseEntity<Book> updateBook(@PathVariable Long id,
             @Valid @RequestBody BookDTO dto) {
         return ResponseEntity.ok(bookService.updateBook(id, dto));
     }
