@@ -1,0 +1,223 @@
+openapi: 3.0.0
+info:
+  title: Mini Library API
+  version: 1.0.0
+  description: Book inventory, member, and loan tracking REST API
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/books:
+    get:
+      summary: Get all books
+      responses:
+        '200':
+          description: List of books
+    post:
+      summary: Create a book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDTO'
+      responses:
+        '201':
+          description: Book created
+
+  /api/books/{id}:
+    get:
+      summary: Get book by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book found
+        '404':
+          description: Book not found
+    put:
+      summary: Update book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDTO'
+      responses:
+        '200':
+          description: Book updated
+    delete:
+      summary: Delete book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book deleted
+
+  /api/members:
+    get:
+      summary: Get all members
+      responses:
+        '200':
+          description: List of members
+    post:
+      summary: Create a member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberDTO'
+      responses:
+        '201':
+          description: Member created
+
+  /api/members/{id}:
+    get:
+      summary: Get member by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Member found
+        '404':
+          description: Member not found
+    put:
+      summary: Update member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberDTO'
+      responses:
+        '200':
+          description: Member updated
+    delete:
+      summary: Delete member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Member deleted
+
+  /api/loans:
+    post:
+      summary: Create a loan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanDTO'
+      responses:
+        '201':
+          description: Loan created
+
+  /api/loans/{id}/return:
+    put:
+      summary: Return a book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book returned
+
+  /api/loans/overdue:
+    get:
+      summary: Get overdue loans
+      responses:
+        '200':
+          description: List of overdue loans
+
+  /api/loans/member/{memberId}:
+    get:
+      summary: Get loans by member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of loans
+
+components:
+  schemas:
+    BookDTO:
+      type: object
+      required:
+        - title
+        - author
+        - isbn
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+
+    MemberDTO:
+      type: object
+      required:
+        - name
+        - email
+        - phone
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+
+    LoanDTO:
+      type: object
+      required:
+        - bookId
+        - memberId
+        - dueDate
+      properties:
+        bookId:
+          type: integer
+        memberId:
+          type: integer
+        dueDate:
+          type: string
+          format: date
